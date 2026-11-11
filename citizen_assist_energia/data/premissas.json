@@ -12,7 +12,7 @@
     "valor": 0.78938,
     "unidade": "R$/kWh",
     "tipo": "real",
-    "fonte": "ANEEL, REH nº 3.596/2026 (Enel SP, vigência 04/07/2026 a 03/07/2027)",
+    "fonte": "ANEEL, Resolução Homologatória nº 3.596, de 30/06/2026 (Enel SP, vigência a partir de 04/07/2026). B1: TUSD R$ 472,42/MWh + TE R$ 316,96/MWh = R$ 0,78938/kWh, sem impostos",
     "consulta": "06/11/2026"
   },
   "fator_co2_kg_kwh": {
@@ -20,7 +20,7 @@
     "valor": 0.0385,
     "unidade": "kg CO2/kWh",
     "tipo": "real",
-    "fonte": "MCTI/SIRENE: 38,5 kg CO2/MWh em 2023",
+    "fonte": "MCTI, SIRENE: fator médio anual do SIN, ano-base 2023: 0,0385 tCO2/MWh (Brasília, 2024)",
     "consulta": "06/11/2026"
   },
   "fracao_solar": {
@@ -28,7 +28,7 @@
     "valor": 0.70,
     "unidade": "fração (0 a 1)",
     "tipo": "estimado",
-    "fonte": "ABNT NBR 15569 (dimensiona com 70% de fração solar); estudo em Viçosa-MG com redução média de 70% na energia de aquecimento de água",
+    "fonte": "Altoé, Oliveira Filho e Carlo (2012), Ambiente Construído v. 12, n. 3, p. 75-87, DOI 10.1590/S1678-86212012000300006: simulação em Viçosa-MG com redução média de 70% da eletricidade para aquecer água (solar + apoio elétrico). Norma de projeto: ABNT NBR 15569:2020/Emenda 1:2021",
     "consulta": "06/11/2026"
   },
   "investimento_solar_rs": {
@@ -36,7 +36,7 @@
     "valor": 7000,
     "unidade": "R$",
     "tipo": "estimado",
-    "fonte": "Ponto médio da faixa de R$ 5.000 a R$ 9.000 (Monitor do Mercado, 2026); kit de 200 L sem instalação: R$ 3.240 (SINAPI 05/2026)",
+    "fonte": "Monitor do Mercado (30/08/2026): instalação de R$ 5.000 a R$ 9.000 em residências preparadas, ponto médio R$ 7.000. SINAPI 05/2026, insumo 34472: kit de 200 L sem instalação, R$ 3.240",
     "consulta": "06/11/2026"
   }
 }
