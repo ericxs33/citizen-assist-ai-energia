@@ -1,0 +1,42 @@
+{
+  "potencia_chuveiro_w": {
+    "descricao": "Potência do chuveiro elétrico",
+    "valor": 5500,
+    "unidade": "W",
+    "tipo": "estimado",
+    "fonte": "Valor típico de chuveiros elétricos; conferir na etiqueta do modelo",
+    "consulta": "06/11/2026"
+  },
+  "tarifa_rs_kwh": {
+    "descricao": "Tarifa residencial B1 da Enel SP, sem impostos, bandeira verde",
+    "valor": 0.78938,
+    "unidade": "R$/kWh",
+    "tipo": "real",
+    "fonte": "ANEEL, REH nº 3.596/2026 (Enel SP, vigência 04/07/2026 a 03/07/2027)",
+    "consulta": "06/11/2026"
+  },
+  "fator_co2_kg_kwh": {
+    "descricao": "Fator médio de emissão do Sistema Interligado Nacional, média anual de 2023",
+    "valor": 0.0385,
+    "unidade": "kg CO2/kWh",
+    "tipo": "real",
+    "fonte": "MCTI/SIRENE: 38,5 kg CO2/MWh em 2023",
+    "consulta": "06/11/2026"
+  },
+  "fracao_solar": {
+    "descricao": "Fração da energia do banho suprida pelo aquecedor solar",
+    "valor": 0.70,
+    "unidade": "fração (0 a 1)",
+    "tipo": "estimado",
+    "fonte": "ABNT NBR 15569 (dimensiona com 70% de fração solar); estudo em Viçosa-MG com redução média de 70% na energia de aquecimento de água",
+    "consulta": "06/11/2026"
+  },
+  "investimento_solar_rs": {
+    "descricao": "Investimento no aquecedor solar de 300 L para cerca de 4 pessoas",
+    "valor": 7000,
+    "unidade": "R$",
+    "tipo": "estimado",
+    "fonte": "Ponto médio da faixa de R$ 5.000 a R$ 9.000 (Monitor do Mercado, 2026); kit de 200 L sem instalação: R$ 3.240 (SINAPI 05/2026)",
+    "consulta": "06/11/2026"
+  }
+}

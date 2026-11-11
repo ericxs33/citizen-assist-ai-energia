@@ -1,0 +1,10 @@
+{
+  "provedor": "groq",
+  "chaves": {
+    "gemini": "",
+    "groq": "COLE_AQUI_SUA_CHAVE"
+  },
+  "modelos": {
+    "groq": "llama-3.1-8b-instant"
+  }
+}

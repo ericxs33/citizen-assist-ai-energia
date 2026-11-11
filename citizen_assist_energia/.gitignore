@@ -1,0 +1,9 @@
+# Nunca suba chaves de API
+.env
+*.key
+config_ia.json
+config_ia.json.tmp
+
+# Python
+__pycache__/
+*.pyc

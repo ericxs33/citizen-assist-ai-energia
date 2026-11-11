@@ -1,0 +1,15 @@
+﻿data,sessao,origem,intencao,pergunta,pessoas,min_atual,min_meta,usou_padrao,ajudou
+2026-11-10T23:53:17,ce21601f,regras,consumo,quanto o chuveiro consome?,4,10,5,True,True
+2026-11-10T23:53:44,ce21601f,regras,consumo,"quero saber o consumo do chuveiro para 3 pessoas, 90 minutos de banho geral por dia",3,10,5,True,True
+2026-11-10T23:53:54,ce21601f,regras,nao_encontrou,poderia me informar uma dúvida?,,,,False,False
+2026-11-10T23:54:07,ce21601f,ia,ia,poderia me informar uma dúvida?,3,10,5,False,True
+2026-11-10T23:54:17,ce21601f,regras,fontes,Fontes e premissas usadas,,,,False,False
+2026-11-10T23:54:26,ce21601f,regras,custo,quanto custa o banho na conta de luz?,3,10,5,True,True
+2026-11-10T23:54:28,ce21601f,regras,reduzir,como economizar reduzindo o tempo de banho?,3,10,5,True,True
+2026-11-10T23:54:29,ce21601f,regras,solar,como funciona o aquecedor solar?,3,10,5,True,True
+2026-11-10T23:54:31,ce21601f,regras,solar,como funciona o aquecedor solar?,3,10,5,True,True
+2026-11-10T23:54:33,ce21601f,regras,comparar,compare as alternativas,3,10,5,True,True
+2026-11-10T23:54:34,ce21601f,regras,co2,qual o impacto ambiental?,3,10,5,True,True
+2026-11-10T23:54:35,ce21601f,regras,nao_encontrou,7s,,,,False,False
+2026-11-10T23:54:40,ce21601f,ia,ia,7s,3,10,5,False,True
+2026-11-10T23:56:01,b8eacebc,regras,nao_encontrou,"uma pergunta quanto a sua API key, quando eu aplico a API key no código ela fica salva no json correto? então antes de subir pro github eu devo apaga-la?",,,,False,False
