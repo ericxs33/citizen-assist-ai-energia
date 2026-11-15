@@ -8,11 +8,11 @@ Assistente de terminal, em Python, que orienta moradores sobre o gasto de energi
 
 | Nome completo | RM |
 
-| Eric dos Santos Mendes da Silva | 569528 
+| Eric dos Santos Mendes da Silva | 569528 | 
 
-| Tom Stringaci Albuquerque Coelho Morais | 568844 
+|Tom Stringaci Albuquerque Coelho Morais | 568844 | 
 
-| Rafael Côrtes Lins | 570588 
+| Rafael Côrtes Lins | 570588 |
 
 ## Contribuição desta disciplina
 
