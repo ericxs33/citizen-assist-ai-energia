@@ -1,6 +1,6 @@
 # Citizen Assist AI - Energia
 
-Global Solution · **Soluções em Energias Renováveis e Sustentáveis** · FIAP · Ciência da Computação (1CC)
+Global Solution · **Soluções em Energias Renováveis e Sustentáveis** · FIAP · Ciência da Computação (1CCPI)
 
 Assistente de terminal, em Python, que orienta moradores sobre o gasto de energia do **chuveiro elétrico**, compara alternativas de economia e de fonte renovável e explica as premissas e limitações de cada estimativa.
 
