@@ -8,6 +8,8 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 
+from privacidade import ocultar_dados_pessoais
+
 PASTA = Path(__file__).parent / "data"
 ATENDIMENTOS = PASTA / "atendimentos.csv"
 AVALIACOES = PASTA / "avaliacoes.csv"
@@ -53,7 +55,7 @@ class Sessao:
             "sessao": self.id,
             "origem": resposta.origem,
             "intencao": resposta.intencao,
-            "pergunta": resposta.pergunta,
+            "pergunta": ocultar_dados_pessoais(resposta.pergunta),
             "pessoas": parametros.get("pessoas", ""),
             "min_atual": parametros.get("min_atual", ""),
             "min_meta": parametros.get("min_meta", ""),
@@ -72,5 +74,5 @@ class Sessao:
             "atendimentos": self.atendimentos,
             "taxa_ajudou_pct": round(self.taxa_ajudou, 1),
             "nota_facilidade": nota if nota is not None else "",
-            "comentario": comentario,
+            "comentario": ocultar_dados_pessoais(comentario),
         })

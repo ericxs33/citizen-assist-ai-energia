@@ -9,6 +9,7 @@ from dataclasses import dataclass, field
 
 import calculos
 from calculos import Parametros
+from privacidade import contem_dados_pessoais  # noqa: F401 (também usado por main.py)
 
 PADRAO_PESSOAS = 4
 PADRAO_MINUTOS = 10
@@ -77,14 +78,6 @@ def normalizar(texto):
         c for c in unicodedata.normalize("NFD", texto.lower()) if unicodedata.category(c) != "Mn"
     )
     return " ".join(re.sub(r"[^\w\s.,$%-]", " ", sem_acento).split())
-
-
-def contem_dados_pessoais(texto):
-    if "@" in texto:
-        return True
-    cpf = r"(?<!\d)\d{3}\.?\d{3}\.?\d{3}-?\d{2}(?!\d)"
-    telefone = r"(?<!\d)\(?\d{2}\)?[\s-]?9?\d{4}-?\d{4}(?!\d)"
-    return bool(re.search(cpf, texto) or re.search(telefone, texto) or re.search(r"\d{8,}", texto))
 
 
 def extrair_parametros(t):

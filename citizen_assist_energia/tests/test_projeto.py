@@ -11,8 +11,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import calculos
 import config_ia
 import premissas
+import registros
+from privacidade import ocultar_dados_pessoais
 from ia import ConsultorIA, ErroIA, situacao_provedores
-from assistente import (Assistente, contem_dados_pessoais, extrair_parametros,
+from assistente import (Assistente, Resposta, contem_dados_pessoais, extrair_parametros,
                         identificar_intencao, normalizar)
 
 
@@ -99,11 +101,37 @@ class TestAssistente(unittest.TestCase):
         for pergunta, esperado in casos.items():
             self.assertEqual(identificar_intencao(normalizar(pergunta)), esperado, pergunta)
 
-    def test_dados_pessoais(self):
-        self.assertTrue(contem_dados_pessoais("meu email é a@b.com"))
-        self.assertTrue(contem_dados_pessoais("meu cpf 123.456.789-10"))
-        self.assertTrue(contem_dados_pessoais("liga (11) 91234-5678"))
-        self.assertFalse(contem_dados_pessoais("somos 4 pessoas, 10 min, tarifa 0,78938"))
+    def test_dados_pessoais_em_varios_formatos(self):
+        pessoais = [
+            "meu email é a@b.com", "meu cpf 123.456.789-10", "liga (11) 91234-5678",
+            "123 456 789 00", "meu cpf: 123.456.789.00", "meu CPF 123-456-789-00",
+            "cpf 1234567 8900", "telefone 11 91234 5678", "celular 99999-9999",
+            "rg 12.345.678-9", "meu cpf é 12345", "senha 123456", "12345678900",
+        ]
+        for texto in pessoais:
+            self.assertTrue(contem_dados_pessoais(texto), texto)
+
+    def test_frases_normais_nao_sao_bloqueadas(self):
+        normais = [
+            "somos 4 pessoas, 10 min, tarifa 0,78938",
+            "somos 3 pessoas banho de 15 min para 8 min tarifa 0,95 chuveiro de 4500 W",
+            "o que é cpf?", "quanto custa o banho com 2 pessoas e 20 min",
+            "chuveiro de 5500 W, tarifa 0.78938",
+        ]
+        for texto in normais:
+            self.assertFalse(contem_dados_pessoais(texto), texto)
+
+    def test_cpf_falso_e_bloqueado_pelo_assistente(self):
+        for texto in ("meu cpf é 123 456 789 00", "cpf 12345", "123.456.789-00"):
+            r = self.a.responder(texto)
+            self.assertEqual(r.intencao, "bloqueado", texto)
+            self.assertFalse(r.avaliavel)
+
+    def test_ocultar_dados_pessoais(self):
+        self.assertEqual(ocultar_dados_pessoais("meu cpf é 123 456 789 00"), "meu cpf é [removido]")
+        self.assertEqual(ocultar_dados_pessoais("cpf 12345"), "cpf [removido]")
+        self.assertNotIn("a@b.com", ocultar_dados_pessoais("fale com a@b.com"))
+        self.assertEqual(ocultar_dados_pessoais("somos 4 pessoas, tarifa 0,95"), "somos 4 pessoas, tarifa 0,95")
 
     def test_resposta_usa_calculo(self):
         r = self.a.responder("quanto consome com 4 pessoas e banho de 10 min?")
@@ -140,6 +168,25 @@ class TestAssistente(unittest.TestCase):
     def test_toda_resposta_de_calculo_traz_limitacoes(self):
         for pergunta in ("quanto consome", "quanto custa", "compare as alternativas", "impacto ambiental"):
             self.assertIn("Limitações", self.a.responder(pergunta).texto)
+
+
+class TestRegistros(unittest.TestCase):
+    def test_nada_pessoal_e_gravado_nos_arquivos(self):
+        with tempfile.TemporaryDirectory() as pasta:
+            pasta = Path(pasta)
+            with mock.patch.object(registros, "PASTA", pasta), \
+                 mock.patch.object(registros, "ATENDIMENTOS", pasta / "atendimentos.csv"), \
+                 mock.patch.object(registros, "AVALIACOES", pasta / "avaliacoes.csv"):
+                sessao = registros.Sessao()
+                resposta = Resposta("x", "nao_encontrou", pergunta="meu cpf é 123 456 789 00 e a@b.com",
+                                    encontrou=False)
+                sessao.registrar_atendimento(resposta, False)
+                sessao.registrar_avaliacao(4, "me liga no 11 91234 5678")
+                conteudo = (pasta / "atendimentos.csv").read_text(encoding="utf-8-sig") + \
+                           (pasta / "avaliacoes.csv").read_text(encoding="utf-8-sig")
+        for proibido in ("123 456", "a@b.com", "91234", "5678"):
+            self.assertNotIn(proibido, conteudo)
+        self.assertIn("[removido]", conteudo)
 
 
 class TestIA(unittest.TestCase):
