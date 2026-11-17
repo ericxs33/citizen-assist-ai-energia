@@ -7,12 +7,11 @@ Assistente de terminal, em Python, que orienta moradores sobre o gasto de energi
 ## Integrantes
 
 | Nome completo | RM |
-
-| Eric dos Santos Mendes da Silva | 569528 | 
-
-|Tom Stringaci Albuquerque Coelho Morais | 568844 | 
-
+|---|---|
+| Eric dos Santos Mendes da Silva | 569528 |
+| Tom Stringaci Albuquerque Coelho Morais | 568844 |
 | Rafael Côrtes Lins | 570588 |
+
 
 ## Contribuição desta disciplina
 
@@ -35,6 +34,8 @@ Este repositório contém a contribuição de **Soluções em Energias Renováve
 | 5 | Comparação das 4 alternativas, com custo acumulado em 10 anos e recomendação |
 | 6 | Impacto ambiental (kg de CO2) |
 | 7 | Fontes e premissas usadas |
+| 8 | Ajuda com exemplos de perguntas |
+| 9 | Zera os dados informados e volta aos valores de exemplo |
 | C | Configuração da IA de apoio (opcional) |
 | Pergunta livre | O assistente entende texto, como "somos 3 pessoas, banho de 15 min, vale a pena o solar?" |
 
@@ -49,7 +50,7 @@ cd citizen_assist_energia
 python main.py
 ```
 
-Testes automáticos:
+Testes automáticos (48 testes):
 
 ```powershell
 python -m unittest discover -s tests -v
@@ -59,15 +60,15 @@ Dica: no menu, digite `5` para ver a comparação completa ou `ajuda` para ver e
 
 ## Dados e premissas
 
-Os dados ficam em `data/premissas.json`, cada um com tipo (**real** ou **estimado**), fonte e data de consulta.
+Os dados ficam em `data/premissas.json`, cada um com tipo, fonte e data de consulta. A coluna Categoria separa dados oficiais, estudos científicos e estimativas.
 
-| Premissa | Valor | Tipo | Fonte | Consulta |
+| Premissa | Valor | Categoria | Fonte | Consulta |
 |---|---|---|---|---|
-| Potência do chuveiro elétrico | 5.500 W | estimado | Valor típico de chuveiros elétricos; conferir na etiqueta do modelo | 06/11/2026 |
-| Tarifa residencial B1 da Enel SP, sem impostos, bandeira verde | 0,78938 R$/kWh | real | ANEEL, REH nº 3.596/2026 (Enel SP, vigência 04/07/2026 a 03/07/2027) | 06/11/2026 |
-| Fator médio de emissão do Sistema Interligado Nacional, média anual de 2023 | 0,0385 kg CO2/kWh | real | MCTI/SIRENE: 38,5 kg CO2/MWh em 2023 | 06/11/2026 |
-| Fração da energia do banho suprida pelo aquecedor solar | 0,7 fração (0 a 1) | estimado | ABNT NBR 15569 (dimensiona com 70% de fração solar); estudo em Viçosa-MG com redução média de 70% na energia de aquecimento de água | 06/11/2026 |
-| Investimento no aquecedor solar de 300 L para cerca de 4 pessoas | 7.000 R$ | estimado | Ponto médio da faixa de R$ 5.000 a R$ 9.000 (Monitor do Mercado, 2026); kit de 200 L sem instalação: R$ 3.240 (SINAPI 05/2026) | 06/11/2026 |
+| Potência do chuveiro elétrico | 5.500 W | Valor típico (estimativa) | Conferir na etiqueta do modelo | 06/11/2026 |
+| Tarifa residencial B1, Enel SP, sem impostos | 0,78938 R$/kWh | Dado oficial | ANEEL, Resolução Homologatória nº 3.596/2026 | 06/11/2026 |
+| Fator médio de emissão do SIN, 2023 | 0,0385 kg CO2/kWh | Dado oficial | MCTI, SIRENE, ano-base 2023 | 06/11/2026 |
+| Fração solar do banho | 0,70 | Estudo científico (estimativa) | Altoé et al. (2012), Ambiente Construído; projeto conforme ABNT NBR 15569 | 06/11/2026 |
+| Investimento no aquecedor solar (300 L, ~4 pessoas) | 7.000 R$ | Estimativa de mercado | Monitor do Mercado (2026); SINAPI 05/2026, insumo 34472 | 06/11/2026 |
 
 ## Cálculos e comparação das alternativas
 
@@ -103,10 +104,11 @@ Exemplo: 4 pessoas, banho de 10 min, meta de 5 min, chuveiro de 5.500 W.
 
 Quando o assistente não sabe responder, ou o usuário marca que a resposta não ajudou, uma IA de apoio pode assumir. Ela é **opcional**: sem chave, o projeto funciona inteiro.
 
+- Aceita vários provedores (Gemini, Groq, OpenAI, OpenRouter e Anthropic). A chave é colada na tela de configuração (tecla **C** do menu).
 - Recebe as premissas e os cálculos do projeto como contexto e é instruída a **não inventar números** nem fontes.
 - Toda resposta de IA vem identificada e com aviso para conferir os números.
-- Dados pessoais (CPF, telefone, e-mail) são bloqueados antes de qualquer envio.
-- Os números principais continuam vindo dos cálculos e das fontes verificadas pela equipe.
+- Dados pessoais (CPF, telefone, e-mail) são bloqueados antes de qualquer envio e mascarados antes de qualquer gravação nos registros.
+- A resposta da IA **não passa pelos cálculos do projeto** e pode conter erros. Os números principais vêm dos cálculos e das fontes verificadas pela equipe.
 - A chave fica em `config_ia.json`, **fora do GitHub** (`.gitignore`). Veja `config_ia.exemplo.json`.
 
 ## Testes com usuários
@@ -116,7 +118,12 @@ Cada resposta e cada sessão são registradas, sem dados pessoais:
 - `data/atendimentos.csv`: pergunta, origem da resposta (`regras` ou `ia`), dados usados e se ajudou.
 - `data/avaliacoes.csv`: nota de facilidade (1 a 5) e comentário de cada sessão.
 
-Situações testadas, comentários recebidos e ajustes feitos: [PREENCHER após as rodadas de teste].
+| # | Situação testada | Resultado | Ajuste feito |
+|---|---|---|---|
+| 1 | CPF falso digitado com espaços ("123 456 789 00") | O assistente não bloqueou: respondeu "não entendi" e a pergunta foi gravada no registro | Novo módulo `privacidade.py`: bloqueia CPF, telefone e e-mail em qualquer pontuação, bloqueia números junto de palavras como "cpf" e "senha", e mascara qualquer dado antes de gravar. 4 testes automáticos cobrem o caso |
+| 2 | [PREENCHER] | [PREENCHER] | [PREENCHER] | (Preencher após os testes)
+
+Resumo das rodadas: [PREENCHER: número de usuários, nota média de facilidade e principais comentários].
 
 ## Limitações
 
@@ -125,6 +132,8 @@ Situações testadas, comentários recebidos e ajustes feitos: [PREENCHER após 
 - A tarifa padrão é a da Enel SP **sem impostos**; o usuário pode informar a da sua conta.
 - O fator de emissão é a média anual de 2023.
 - O solar depende de insolação, instalação e apoio elétrico; o investimento é uma estimativa.
+- A potência do chuveiro (5.500 W) é um valor típico, não de um modelo específico.
+- A IA de apoio pode errar: suas respostas não passam pelos cálculos do projeto e devem ser conferidas.
 
 ## Referências
 
@@ -138,14 +147,18 @@ Situações testadas, comentários recebidos e ajustes feitos: [PREENCHER após 
 ## Estrutura do projeto
 
 ```
-citizen_assist_energia/
-├── main.py           (menu e conversa no terminal)
-├── assistente.py     (interpreta a pergunta e monta a resposta)
-├── calculos.py       (consumo, custo, CO2, payback)
-├── premissas.py      (carrega e valida os dados)
-├── ia.py             (IA de apoio, vários provedores)
-├── config_ia.py      (chaves locais, fora do GitHub)
-├── registros.py      (registro dos testes com usuários)
-├── data/             (premissas.json e registros dos testes)
-└── tests/            (testes automáticos)
+citizen-assist-ai-energia/
+├── README.md
+└── citizen_assist_energia/
+    ├── main.py              (menu e conversa no terminal)
+    ├── assistente.py        (interpreta a pergunta e monta a resposta)
+    ├── calculos.py          (consumo, custo, CO2, payback)
+    ├── premissas.py         (carrega e valida os dados)
+    ├── privacidade.py       (bloqueia e mascara dados pessoais)
+    ├── ia.py                (IA de apoio, vários provedores)
+    ├── config_ia.py         (chaves locais, fora do GitHub)
+    ├── config_ia.exemplo.json
+    ├── registros.py         (registro dos testes com usuários)
+    ├── data/                (premissas.json, atendimentos.csv, avaliacoes.csv)
+    └── tests/               (testes automáticos)
 ```
