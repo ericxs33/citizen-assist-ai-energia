@@ -120,10 +120,9 @@ Cada resposta e cada sessão são registradas, sem dados pessoais:
 
 | # | Situação testada | Resultado | Ajuste feito |
 |---|---|---|---|
-| 1 | CPF falso digitado com espaços ("123 456 789 00") | O assistente não bloqueou: respondeu "não entendi" e a pergunta foi gravada no registro | Novo módulo `privacidade.py`: bloqueia CPF, telefone e e-mail em qualquer pontuação, bloqueia números junto de palavras como "cpf" e "senha", e mascara qualquer dado antes de gravar. 4 testes automáticos cobrem o caso |
-| 2 | [PREENCHER] | [PREENCHER] | [PREENCHER] | (Preencher após os testes)
-
-Resumo das rodadas: [PREENCHER: número de usuários, nota média de facilidade e principais comentários].
+| 1 | CPF falso digitado com espaços ("123 456 789 00") (Eric) | O assistente não bloqueou: respondeu "não entendi" e a pergunta foi gravada no registro | Novo módulo `privacidade.py`: bloqueia CPF, telefone e e-mail em qualquer pontuação, bloqueia números junto de palavras como "cpf" e "senha", e mascara qualquer dado antes de gravar. 4 testes automáticos cobrem o caso |
+| 2 | Opção 6, Opção 5, Opção C, prompt injection (Rafael Lins) | Tudo nos conformes, IA de apoio funcionou normalmente com o Gemini 2.5 flashlite, IA não caiu no prompt injection e respondeu que não poderia ajudar em assuntos fora do tema. | Nada precisou ser alterado. |
+| 3 | Demais opções (Tom) | Tudo nos conformes | Nada precisou ser alterado. | 
 
 ## Limitações
 
